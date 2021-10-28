@@ -1,0 +1,6 @@
+{
+	"parent": "block/cube_all",
+	"textures": {
+		"all": "theoutback:blocks/gum_leaves"
+	}
+}

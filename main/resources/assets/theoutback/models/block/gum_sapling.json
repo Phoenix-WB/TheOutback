@@ -1,0 +1,7 @@
+{
+	"parent": "block/cross",
+	"textures": {
+		"cross": "theoutback:blocks/gum_sapling",
+		"particle": "theoutback:blocks/gum_sapling"
+	}
+}

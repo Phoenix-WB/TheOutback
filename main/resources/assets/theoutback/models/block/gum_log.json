@@ -1,0 +1,7 @@
+{
+	"parent": "block/cube_column",
+	"textures": {
+		"end": "theoutback:blocks/gum_log_top",
+		"side": "theoutback:blocks/gum_log"
+	}
+}

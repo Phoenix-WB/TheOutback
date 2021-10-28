@@ -1,0 +1,17 @@
+{
+	"type": "minecraft:block",
+	"pools": [
+	{
+		"rolls": {
+		"min": 1,
+		"max": 2
+		},
+		"entries": [
+		{
+			"type": "minecraft:item",
+			"name": "theoutback:mallee_wood"
+		}
+	  ]
+	}
+  ]
+}
