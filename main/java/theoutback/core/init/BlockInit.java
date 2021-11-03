@@ -40,5 +40,5 @@ public class BlockInit {
 
 	public static final RegistryObject<Block> GUM_SAPLING = BLOCKS.register("gum_sapling",
 			() -> new CustomSaplingBlock(AbstractBlock.Properties.of(Material.LEAVES, MaterialColor.GRASS).strength(0f)
-					.sound(SoundType.GRASS).randomTicks().noOcclusion(), TreeInit.GUM));
+					.sound(SoundType.GRASS).randomTicks().noOcclusion().noCollission(), TreeInit.GUM));
 }
