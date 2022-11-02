@@ -1,6 +1,8 @@
-package com.phoenixwb.theoutback.block;
+package com.phoenixwb.theoutback.block.flammable;
 
 import javax.annotation.Nullable;
+
+import com.phoenixwb.theoutback.init.BlockInit;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -34,11 +36,11 @@ public class LogBlock extends RotatedPillarBlock {
 	@Override
 	public @Nullable BlockState getToolModifiedState(BlockState pState, UseOnContext pContext, ToolAction pToolAction, boolean pSimulate) {
 		if(pContext.getItemInHand().getItem() instanceof AxeItem) {
-			if(pState.is(null)) {
-				
+			if(pState.is(BlockInit.GUM_LOG.get())) {
+				return BlockInit.STRIPPED_GUM_LOG.get().defaultBlockState().setValue(AXIS, pState.getValue(AXIS));
 			}
-			if(pState.is(null)) {
-				
+			if(pState.is(BlockInit.GUM_WOOD.get())) {
+				return BlockInit.STRIPPED_GUM_WOOD.get().defaultBlockState().setValue(AXIS, pState.getValue(AXIS));
 			}
 		}
 		

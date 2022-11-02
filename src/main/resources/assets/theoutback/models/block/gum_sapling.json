@@ -1,0 +1,7 @@
+{
+	"parent": "minecraft:block/cross",
+	"textures": {
+		"cross": "theoutback:block/gum_sapling"
+	},
+	"render_type": "cutout"
+}
