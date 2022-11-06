@@ -43,13 +43,13 @@ public class GumTrunkPlacer extends TrunkPlacer {
 		List<? extends TrunkSegment> segments = List.of(
 				new TrunkSegment(pPos.above(trunkHeight), pFreeTreeHeight - trunkHeight, pRandom),
 				new BranchingTrunkSegment(pPos.above(trunkHeight - 1), Direction.NORTH,
-						pRandom.nextInt(pFreeTreeHeight - trunkHeight), pRandom),
+						pRandom.nextInt(pFreeTreeHeight - (trunkHeight + 3)) + 3, pRandom),
 				new BranchingTrunkSegment(pPos.above(trunkHeight - 1), Direction.SOUTH,
-						pRandom.nextInt(pFreeTreeHeight - trunkHeight), pRandom),
+						pRandom.nextInt(pFreeTreeHeight - (trunkHeight + 3)) + 3, pRandom),
 				new BranchingTrunkSegment(pPos.above(trunkHeight - 1), Direction.EAST,
-						pRandom.nextInt(pFreeTreeHeight - trunkHeight), pRandom),
+						pRandom.nextInt(pFreeTreeHeight - (trunkHeight + 3)) + 3, pRandom),
 				new BranchingTrunkSegment(pPos.above(trunkHeight - 1), Direction.WEST,
-						pRandom.nextInt(pFreeTreeHeight - trunkHeight), pRandom));
+						pRandom.nextInt(pFreeTreeHeight - (trunkHeight + 3)) + 3, pRandom));
 
 		for (int i = 0; i < trunkHeight; ++i) {
 			this.placeLog(pLevel, pBlockSetter, pRandom, pPos.above(i), pConfig);

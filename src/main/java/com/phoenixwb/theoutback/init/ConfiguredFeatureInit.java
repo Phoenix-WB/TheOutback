@@ -25,7 +25,7 @@ public class ConfiguredFeatureInit {
 	public static final RegistryObject<ConfiguredFeature<?, ?>> GUM = CONFIGURED_FEATURES.register("gum",
 			() -> new ConfiguredFeature<>(Feature.TREE,
 					new TreeConfiguration.TreeConfigurationBuilder(BlockStateProvider.simple(BlockInit.GUM_LOG.get()),
-							new GumTrunkPlacer(9, 14, 6), BlockStateProvider.simple(BlockInit.GUM_LEAVES.get()),
+							new GumTrunkPlacer(9, 14, 7), BlockStateProvider.simple(BlockInit.GUM_LEAVES.get()),
 							new BlobFoliagePlacer(ConstantInt.of(2), ConstantInt.of(0), 2),
 							new TwoLayersFeatureSize(1, 0, 2)).build()));
 
