@@ -42,26 +42,28 @@ public class GumTrunkPlacer extends TrunkPlacer {
 
 		List<? extends TrunkSegment> segments = List.of(
 				new TrunkSegment(pPos.above(trunkHeight), pFreeTreeHeight - trunkHeight, pRandom),
-				new BranchingTrunkSegment(pPos.above(trunkHeight), Direction.NORTH,
-						pRandom.nextInt(pFreeTreeHeight - (trunkHeight + 3)) + 3, pRandom),
-				new BranchingTrunkSegment(pPos.above(trunkHeight), Direction.SOUTH,
-						pRandom.nextInt(pFreeTreeHeight - (trunkHeight + 3)) + 3, pRandom),
-				new BranchingTrunkSegment(pPos.above(trunkHeight), Direction.EAST,
-						pRandom.nextInt(pFreeTreeHeight - (trunkHeight + 3)) + 3, pRandom),
-				new BranchingTrunkSegment(pPos.above(trunkHeight), Direction.WEST,
-						pRandom.nextInt(pFreeTreeHeight - (trunkHeight + 3)) + 3, pRandom));
+				new BranchingTrunkSegment(pPos.above(trunkHeight - 1), Direction.NORTH,
+						pRandom.nextInt(pFreeTreeHeight - trunkHeight), pRandom),
+				new BranchingTrunkSegment(pPos.above(trunkHeight - 1), Direction.SOUTH,
+						pRandom.nextInt(pFreeTreeHeight - trunkHeight), pRandom),
+				new BranchingTrunkSegment(pPos.above(trunkHeight - 1), Direction.EAST,
+						pRandom.nextInt(pFreeTreeHeight - trunkHeight), pRandom),
+				new BranchingTrunkSegment(pPos.above(trunkHeight - 1), Direction.WEST,
+						pRandom.nextInt(pFreeTreeHeight - trunkHeight), pRandom));
 
 		for (int i = 0; i < trunkHeight; ++i) {
 			this.placeLog(pLevel, pBlockSetter, pRandom, pPos.above(i), pConfig);
 		}
 
-		segments.forEach(segment -> {
-			segment.grow();
-			this.placeLog(pLevel, pBlockSetter, pRandom, segment.currentPos, pConfig);
-		});
+		for (int i = trunkHeight; i < pFreeTreeHeight; ++i) {
+			segments.forEach(segment -> {
+				segment.grow();
+				this.placeLog(pLevel, pBlockSetter, pRandom, segment.currentPos, pConfig);
+			});
+		}
 
 		List<FoliageAttachment> foliage = segments.stream()
-				.map(trunk -> new FoliagePlacer.FoliageAttachment(trunk.currentPos, 0, false))
+				.map(trunk -> new FoliagePlacer.FoliageAttachment(trunk.currentPos.above().above(), 0, false))
 				.collect(Collectors.toList());
 		return foliage;
 	}
@@ -81,19 +83,21 @@ public class GumTrunkPlacer extends TrunkPlacer {
 		}
 
 		public void grow() {
-			if (!canGrow())
-				return;
-			if (currentPos.getY() - startPos.getY() == height / 2)
-				directionChance = 1.0F;
-			if (directionChance > 0.0F) {
-				currentPos = randomOffset().above();
+			if (!canGrow()) {
 				return;
 			}
-			currentPos.above();
+			if (currentPos.getY() - startPos.getY() == height / 2) {
+				directionChance = 1.0F;
+			}
+			if (directionChance > 0.0F) {
+				currentPos = randomOffset();
+				directionChance = 0.0F;
+			}
+			currentPos = currentPos.above();
 		}
 
 		public boolean canGrow() {
-			return currentPos.getY() <= height;
+			return currentPos.getY() - startPos.getY() <= height;
 		}
 
 		public BlockPos randomOffset() {
@@ -119,6 +123,9 @@ public class GumTrunkPlacer extends TrunkPlacer {
 
 		@Override
 		public void grow() {
+			if (!canGrow()) {
+				return;
+			}
 			if (directionChance != 0.0F && random.nextFloat() <= directionChance) {
 				currentPos = forward();
 				directionChance = 0.0F;
