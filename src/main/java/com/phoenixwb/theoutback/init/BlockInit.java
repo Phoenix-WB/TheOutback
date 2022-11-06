@@ -4,6 +4,7 @@ import com.phoenixwb.theoutback.TheOutback;
 import com.phoenixwb.theoutback.block.flammable.LeavesBlock;
 import com.phoenixwb.theoutback.block.flammable.LogBlock;
 import com.phoenixwb.theoutback.block.flammable.PlanksBlock;
+import com.phoenixwb.theoutback.world.feature.tree.GumTreeGrower;
 
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -34,7 +35,7 @@ public class BlockInit {
 
 	public static final RegistryObject<Block> GUM_LEAVES = BLOCKS.register("gum_leaves",
 			() -> new LeavesBlock(BlockBehaviour.Properties.copy(Blocks.OAK_LEAVES)));
-	
+
 	public static final RegistryObject<Block> GUM_SAPLING = BLOCKS.register("gum_sapling",
-			() -> new SaplingBlock(null, BlockBehaviour.Properties.copy(Blocks.OAK_SAPLING)));
+			() -> new SaplingBlock(new GumTreeGrower(), BlockBehaviour.Properties.copy(Blocks.OAK_SAPLING)));
 }
