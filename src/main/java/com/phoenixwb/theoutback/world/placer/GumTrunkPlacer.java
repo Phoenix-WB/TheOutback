@@ -101,24 +101,19 @@ public class GumTrunkPlacer extends TrunkPlacer {
 		}
 
 		public BlockPos randomOffset() {
-			int randNum = random.nextInt(4);
-			if (randNum == 0)
-				return currentPos.north();
-			if (randNum == 1)
-				return currentPos.south();
-			if (randNum == 2)
-				return currentPos.east();
-			return currentPos.west();
+			BlockPos[] positions = { currentPos.north(), currentPos.south(), currentPos.east(), currentPos.west() };
+			return positions[random.nextInt(positions.length)];
 		}
 	}
 
 	static class BranchingTrunkSegment extends TrunkSegment {
 		Direction direction;
+		float stillChance;
 
 		public BranchingTrunkSegment(BlockPos startPos, Direction direction, int height, RandomSource random) {
 			super(startPos, height, random);
 			this.direction = direction;
-			directionChance = 1.0F;
+			stillChance = 1.0F;
 		}
 
 		@Override
@@ -126,12 +121,14 @@ public class GumTrunkPlacer extends TrunkPlacer {
 			if (!canGrow()) {
 				return;
 			}
-			if (directionChance != 0.0F && random.nextFloat() <= directionChance) {
+			if (stillChance != 0.0F && random.nextFloat() <= stillChance) {
 				currentPos = forward();
-				directionChance = 0.0F;
+				stillChance = 0.0F;
 			}
+			
 			currentPos = currentPos.above();
-			this.directionChance = Math.min(directionChance + random.nextFloat(), 1.0F);
+			this.stillChance = Math.min(stillChance + random.nextFloat(), 1.0F);
+			this.directionChance = 
 		}
 
 		public BlockPos forward() {
@@ -144,14 +141,13 @@ public class GumTrunkPlacer extends TrunkPlacer {
 			return currentPos.east();
 		}
 
-		public BlockPos opposite() {
-			if (direction.equals(Direction.NORTH))
-				return currentPos.south();
-			if (direction.equals(Direction.SOUTH))
-				return currentPos.north();
-			if (direction.equals(Direction.WEST))
-				return currentPos.east();
-			return currentPos.west();
+		public BlockPos side() {
+			BlockPos[] posNS = { currentPos.east(), currentPos.west() };
+			BlockPos[] posEW = { currentPos.north(), currentPos.south() };
+			if (direction.equals(Direction.NORTH) || direction.equals(Direction.SOUTH)) {
+				return posNS[random.nextInt(posNS.length)];
+			}
+			return posEW[random.nextInt(posEW.length)];
 		}
 	}
 }
