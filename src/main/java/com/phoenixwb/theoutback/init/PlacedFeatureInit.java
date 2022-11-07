@@ -21,5 +21,5 @@ public class PlacedFeatureInit {
 
 	public static final RegistryObject<PlacedFeature> GUM_PLACED = PLACED_FEATURES.register("gum_placed",
 			() -> new PlacedFeature(ConfiguredFeatureInit.GUM_SPAWN.getHolder().get(),
-					VegetationPlacements.treePlacement(PlacementUtils.countExtra(1, 1.0F, 0))));
+					VegetationPlacements.treePlacement(PlacementUtils.countExtra(3, 0.03125F, 3))));
 }

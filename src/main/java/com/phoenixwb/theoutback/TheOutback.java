@@ -7,7 +7,6 @@ import com.phoenixwb.theoutback.init.ItemInit;
 import com.phoenixwb.theoutback.init.PlacedFeatureInit;
 import com.phoenixwb.theoutback.init.PlacerInit;
 import com.phoenixwb.theoutback.world.region.GumForestRegion;
-import com.phoenixwb.theoutback.world.surfacerule.GumForestSurfaceRule;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
@@ -16,7 +15,6 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import terrablender.api.Regions;
-import terrablender.api.SurfaceRuleManager;
 
 @Mod(TheOutback.MODID)
 public class TheOutback {
@@ -39,8 +37,6 @@ public class TheOutback {
 	private void commonSetup(final FMLCommonSetupEvent event) {
 		event.enqueueWork(() -> {
 			Regions.register(new GumForestRegion(new ResourceLocation(MODID, "gum_forest_region"), 1));
-			SurfaceRuleManager.addSurfaceRules(SurfaceRuleManager.RuleCategory.OVERWORLD, MODID,
-					GumForestSurfaceRule.registerRules());
 		});
 	}
 }

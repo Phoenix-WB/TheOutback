@@ -43,13 +43,13 @@ public class GumTrunkPlacer extends TrunkPlacer {
 		List<? extends TrunkSegment> segments = List.of(
 				new TrunkSegment(pPos.above(trunkHeight), pFreeTreeHeight - trunkHeight, pRandom),
 				new BranchingTrunkSegment(pPos.above(trunkHeight - 1), Direction.NORTH,
-						pRandom.nextInt(pFreeTreeHeight - (trunkHeight + 3)) + 3, pRandom),
+						pRandom.nextInt(pFreeTreeHeight - (trunkHeight + 1)) + 1, pRandom),
 				new BranchingTrunkSegment(pPos.above(trunkHeight - 1), Direction.SOUTH,
-						pRandom.nextInt(pFreeTreeHeight - (trunkHeight + 3)) + 3, pRandom),
+						pRandom.nextInt(pFreeTreeHeight - (trunkHeight + 1)) + 1, pRandom),
 				new BranchingTrunkSegment(pPos.above(trunkHeight - 1), Direction.EAST,
-						pRandom.nextInt(pFreeTreeHeight - (trunkHeight + 3)) + 3, pRandom),
+						pRandom.nextInt(pFreeTreeHeight - (trunkHeight + 1)) + 1, pRandom),
 				new BranchingTrunkSegment(pPos.above(trunkHeight - 1), Direction.WEST,
-						pRandom.nextInt(pFreeTreeHeight - (trunkHeight + 3)) + 3, pRandom));
+						pRandom.nextInt(pFreeTreeHeight - (trunkHeight + 1)) + 1, pRandom));
 
 		for (int i = 0; i < trunkHeight; ++i) {
 			this.placeLog(pLevel, pBlockSetter, pRandom, pPos.above(i), pConfig);
@@ -108,12 +108,12 @@ public class GumTrunkPlacer extends TrunkPlacer {
 
 	static class BranchingTrunkSegment extends TrunkSegment {
 		Direction direction;
-		float stillChance;
+		float shiftChance;
 
 		public BranchingTrunkSegment(BlockPos startPos, Direction direction, int height, RandomSource random) {
 			super(startPos, height, random);
 			this.direction = direction;
-			stillChance = 1.0F;
+			shiftChance = 1.0F;
 		}
 
 		@Override
@@ -121,14 +121,24 @@ public class GumTrunkPlacer extends TrunkPlacer {
 			if (!canGrow()) {
 				return;
 			}
-			if (stillChance != 0.0F && random.nextFloat() <= stillChance) {
+			
+			if (shiftChance != 0.0F && random.nextFloat() <= shiftChance) {
 				currentPos = forward();
-				stillChance = 0.0F;
+				shiftChance = 0.0F;
+			}
+			
+			if (currentPos.getY() - startPos.getY() == height / 2) {
+				directionChance = 0.7F;
+			}
+			
+			if(!(directionChance <= 0.0F) && random.nextFloat() <= directionChance) {
+				currentPos = side();
+				directionChance = 0.0F;
 			}
 			
 			currentPos = currentPos.above();
-			this.stillChance = Math.min(stillChance + random.nextFloat(), 1.0F);
-			this.directionChance = 
+			this.shiftChance = Math.min(shiftChance + random.nextFloat(), 1.0F);
+			directionChance -= 0.3F;
 		}
 
 		public BlockPos forward() {
